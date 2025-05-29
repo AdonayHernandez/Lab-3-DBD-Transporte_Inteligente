@@ -55,6 +55,9 @@ class StopController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $stop = Stop::findOrFail($id);
+        $stop->delete();
+        
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

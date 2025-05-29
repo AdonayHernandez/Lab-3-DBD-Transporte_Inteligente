@@ -67,6 +67,9 @@ class RouteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $route = Route::findOrFail($id);
+        $route->delete();
+        
+        return response()->json(null, 204);
     }
 }

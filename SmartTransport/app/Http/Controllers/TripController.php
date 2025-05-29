@@ -57,6 +57,9 @@ class TripController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $trip = Trip::findOrFail($id);
+        $trip->delete();
+        
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

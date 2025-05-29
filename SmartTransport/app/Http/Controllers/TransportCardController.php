@@ -64,6 +64,9 @@ class TransportCardController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $card = TransportCard::findOrFail($id);
+        $card->delete();
+        
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

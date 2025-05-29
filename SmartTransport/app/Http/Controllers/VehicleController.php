@@ -55,6 +55,8 @@ class VehicleController extends Controller
      */
     public function destroy(Vehicle $vehicle)
     {
-        //
+        $vehicle->delete();
+        
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

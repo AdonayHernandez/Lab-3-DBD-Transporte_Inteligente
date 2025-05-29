@@ -55,6 +55,9 @@ class MaintenanceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $maintenance = Maintenance::findOrFail($id);
+        $maintenance->delete();
+        
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

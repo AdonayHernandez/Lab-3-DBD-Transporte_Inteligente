@@ -53,6 +53,9 @@ class UserApiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+        
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
