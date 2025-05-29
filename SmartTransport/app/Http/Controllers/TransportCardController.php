@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransportCardRequest;
+use App\Http\Requests\UpdateTransportCardRequest;
 use App\Http\Resources\TransportCardResource;
 use App\Models\TransportCard;
 use Illuminate\Http\Request;
@@ -54,10 +55,21 @@ class TransportCardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTransportCardRequest $request, string $id)
     {
+        $data = $request->validated();
         $card = TransportCard::findOrFail($id);
-        $card->update($request->all());
+        
+        // Validar unicidad del código de tarjeta manualmente si se está actualizando
+        if (isset($data['card_code']) && $data['card_code'] !== $card->card_code) {
+            if (TransportCard::where('card_code', $data['card_code'])->exists()) {
+                return response()->json([
+                    'message' => 'el numero de tarjeta ya existe'
+                ], 422);
+            }
+        }
+        
+        $card->update($data);
         
         return new TransportCardResource($card);
     }

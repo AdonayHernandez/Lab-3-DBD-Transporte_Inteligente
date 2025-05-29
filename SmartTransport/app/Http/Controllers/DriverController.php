@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDriverRequest;
+use App\Http\Requests\UpdateDriverRequest;
 use App\Http\Resources\DriverResource;
 use App\Models\Driver;
 use Illuminate\Http\Request;
@@ -41,15 +42,16 @@ class DriverController extends Controller
      */
     public function show(Driver $driver)
     {
-        return new DriverResource($driver);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Driver $driver)
+    public function update(UpdateDriverRequest $request, Driver $driver)
     {
-        $driver->update($request->all());
+        $data = $request->validated();
+        $driver->update($data);
         
         return new DriverResource($driver);
     }

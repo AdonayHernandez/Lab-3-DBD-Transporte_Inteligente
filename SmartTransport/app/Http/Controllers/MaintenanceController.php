@@ -39,7 +39,7 @@ class MaintenanceController extends Controller
      */
     public function show(string $id)
     {
-        //
+       //
     }
 
     /**
