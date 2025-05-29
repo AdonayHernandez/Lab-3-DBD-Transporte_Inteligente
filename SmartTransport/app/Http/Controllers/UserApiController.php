@@ -45,7 +45,10 @@ class UserApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        
+        return new UserResource($user);
     }
 
     /**

@@ -56,7 +56,10 @@ class TransportCardController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $card = TransportCard::findOrFail($id);
+        $card->update($request->all());
+        
+        return new TransportCardResource($card);
     }
 
     /**

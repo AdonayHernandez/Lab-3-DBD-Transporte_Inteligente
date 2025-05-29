@@ -47,7 +47,10 @@ class MaintenanceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $maintenance = Maintenance::findOrFail($id);
+        $maintenance->update($request->all());
+        
+        return new MaintenanceResource($maintenance);
     }
 
     /**

@@ -41,7 +41,7 @@ class DriverController extends Controller
      */
     public function show(Driver $driver)
     {
-        //
+        return new DriverResource($driver);
     }
 
     /**
@@ -49,7 +49,9 @@ class DriverController extends Controller
      */
     public function update(Request $request, Driver $driver)
     {
-        //
+        $driver->update($request->all());
+        
+        return new DriverResource($driver);
     }
 
     /**

@@ -45,7 +45,9 @@ class TypeOfVehicleController extends Controller
      */
     public function update(Request $request, TypeOfVehicle $typeOfVehicle)
     {
-        //
+        $typeOfVehicle->update($request->all());
+        
+        return new TypeOfVehicleResource($typeOfVehicle);
     }
 
     /**

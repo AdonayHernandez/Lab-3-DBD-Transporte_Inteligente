@@ -47,7 +47,9 @@ class VehicleController extends Controller
      */
     public function update(Request $request, Vehicle $vehicle)
     {
-        //
+        $vehicle->update($request->all());
+        
+        return new VehicleResource($vehicle);
     }
 
     /**

@@ -47,7 +47,10 @@ class StopController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $stop = Stop::findOrFail($id);
+        $stop->update($request->all());
+        
+        return new StopResource($stop);
     }
 
     /**

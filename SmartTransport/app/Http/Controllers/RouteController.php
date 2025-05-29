@@ -59,7 +59,10 @@ class RouteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $route = Route::findOrFail($id);
+        $route->update($request->all());
+        
+        return new RouteResource($route);
     }
 
     /**

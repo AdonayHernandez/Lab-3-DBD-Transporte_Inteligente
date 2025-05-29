@@ -49,7 +49,10 @@ class TripController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $trip = Trip::findOrFail($id);
+        $trip->update($request->all());
+        
+        return new TripResource($trip);
     }
 
     /**
