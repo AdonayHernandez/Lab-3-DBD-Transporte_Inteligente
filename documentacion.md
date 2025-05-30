@@ -27,28 +27,7 @@ api/trasnportcards/id ->put show y delete
 ## MODELO Route
 api/routes ->get y post
 api/routes/id ->put show y delete
-{
-            "id": "6837ea5e607163e2a20b79b5",
-            "route_name": "Ruta 322",
-            "scheduled_stops": [
-                "6837e2d8607163e2a20b79b2",
-                "6837e95f607163e2a20b79b4"
-            ],
-            "schedules": [
-                "06:00",
-                "08:00",
-                "10:00"
-            ],
-            "time_between_stations": {
-                "6837e2d8607163e2a20b79b2-6837e95f607163e2a20b79b4": 15
-            },
-            "fare_per_segment": [
-                1.5,
-                3
-            ],
-            "accessibility": false,
-            "created_at": "2025-05-29T05:02:22.121000Z"
-        }
+
 
 ## MODELO Trip 
 api/trips  ->get y post
