@@ -1,4 +1,4 @@
-por cuestiones de tiempo no pudimos implementar un documentacion funcional automatica pero aquie starian las rutas
+##por cuestiones de tiempo no pudimos implementar un documentacion funcional automatica pero aqui estarian las rutas
 
 MODELO USER
 api/users ->get y post 
