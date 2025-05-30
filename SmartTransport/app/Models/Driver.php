@@ -17,7 +17,7 @@ class Driver extends Model
 
    protected $casts = [
       'schedules' => 'array',
-      'assigned_rpoutes' => 'array',
+      'assigned_routes' => 'array',
    ];
 
    
