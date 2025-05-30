@@ -7,6 +7,8 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Dedoc\Scramble\Attributes\ExcludeRouteFromDocs;
+use Dedoc\Scramble\Attributes\Group;
 
 class UserApiController extends Controller
 {
@@ -37,7 +39,11 @@ class UserApiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return response()->json([
+            'user' => new UserResource($user)
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -47,7 +53,7 @@ class UserApiController extends Controller
     {
         $user = User::findOrFail($id);
         $user->update($request->all());
-        
+
         return new UserResource($user);
     }
 
@@ -58,7 +64,7 @@ class UserApiController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        
+
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

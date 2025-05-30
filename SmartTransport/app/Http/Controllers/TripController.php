@@ -7,6 +7,9 @@ use App\Http\Resources\TripResource;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Dedoc\Scramble\Attributes\ExcludeRouteFromDocs;
+use Dedoc\Scramble\Attributes\Group;
+
 class TripController extends Controller
 {
     /**
@@ -14,7 +17,7 @@ class TripController extends Controller
      */
     public function index()
     {
-         $trips = Trip::all();
+        $trips = Trip::with(['user', 'route'])->paginate(4);
 
         return response()->json([
             'trips' => TripResource::collection($trips)
@@ -34,14 +37,18 @@ class TripController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
-    
+
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $trip = Trip::with(['user', 'route'])->findOrFail($id);
+
+        return response()->json([
+            'trip' => new TripResource($trip)
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -51,7 +58,7 @@ class TripController extends Controller
     {
         $trip = Trip::findOrFail($id);
         $trip->update($request->all());
-        
+
         return new TripResource($trip);
     }
 
@@ -62,7 +69,7 @@ class TripController extends Controller
     {
         $trip = Trip::findOrFail($id);
         $trip->delete();
-        
+
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -9,6 +9,7 @@ class Route extends Model
     protected $connection = 'mongodb';
 
     protected $fillable = [
+        'route_name', 
         'scheduled_stops',        // array de IDs de paradas (Stop)
         'schedules',              // horarios teóricos, array o JSON
         'time_between_stations',  // JSON con tiempos entre estaciones

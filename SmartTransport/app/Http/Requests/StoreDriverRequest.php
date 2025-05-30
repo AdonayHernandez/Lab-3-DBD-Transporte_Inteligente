@@ -22,8 +22,9 @@ class StoreDriverRequest extends FormRequest
     public function rules(): array
     {
          return [
+            'name'=>'required|string',
             'schedules' => 'required|array',
-            'assigned_routes' => 'required|array',
+            'route_id' => 'required|string',
             'evaluation_details' => 'nullable|string',
             'incident_details' => 'nullable|string',
         ];

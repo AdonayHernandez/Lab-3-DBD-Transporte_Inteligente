@@ -22,7 +22,7 @@ class Maintenance extends Model
         'cost' => 'float',
     ];
 
-    // Relación con el modelo Vehicle
+   
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);

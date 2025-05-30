@@ -16,10 +16,11 @@ class RouteResource extends JsonResource
     {
          return [
             'id' => (string) $this->_id,
-            'scheduled_stops' => $this->scheduled_stops,               // array de IDs o puedes anidar recursos si haces la relación
-            'schedules' => $this->schedules,                           // array o json
-            'time_between_stations' => $this->time_between_stations,  // json
-            'fare_per_segment' => $this->fare_per_segment,             // array
+            'route_name' => $this->route_name,
+            'scheduled_stops' => $this->scheduled_stops,             
+            'schedules' => $this->schedules,                           
+            'time_between_stations' => $this->time_between_stations, 
+            'fare_per_segment' => $this->fare_per_segment,             
             'accessibility' => (bool) $this->accessibility,
             'created_at' => $this->created_at,
         ];

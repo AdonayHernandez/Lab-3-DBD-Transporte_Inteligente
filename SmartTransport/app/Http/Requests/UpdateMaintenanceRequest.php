@@ -22,13 +22,12 @@ class UpdateMaintenanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'vehicle_id' => 'sometimes|exists:vehicles,_id',
-            'description' => 'sometimes|string',
-            'maintenance_date' => 'sometimes|date',
-            'completion_date' => 'sometimes|date|nullable|after_or_equal:maintenance_date',
-            'cost' => 'sometimes|numeric|min:0',
-            'status' => 'sometimes|in:scheduled,in_progress,completed,cancelled',
-            'notes' => 'sometimes|string|nullable',
+            'vehicle_id' => 'required|string', 
+            'date' => 'required|date',
+            'type' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'workshop' => 'nullable|string|max:255',
+            'cost' => 'required|numeric|min:0',
         ];
     }
 }

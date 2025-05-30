@@ -22,15 +22,15 @@ class UpdateRouteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string|max:255',
-            'description' => 'sometimes|string',
-            'start_point' => 'sometimes|string',
-            'end_point' => 'sometimes|string',
-            'distance' => 'sometimes|numeric|min:0',
-            'estimated_time' => 'sometimes|integer|min:1',
-            'status' => 'sometimes|in:active,inactive,suspended',
-            'scheduled_stops' => 'sometimes|array',
-            'scheduled_stops.*' => 'exists:stops,_id',
+            'route_name' => ['required', 'string', 'max:255'],
+            'scheduled_stops'=> ['required', 'array'],   
+            'scheduled_stops.*'=> ['string'],              
+            'schedules'=> ['required', 'array'],   
+            'schedules.*'=> ['string'],              
+            'time_between_stations'=> ['required', 'array'],    
+            'fare_per_segment'=> ['required', 'array'],   
+            'fare_per_segment.*'=> ['numeric', 'min:0'],     
+            'accessibility'=> ['required', 'boolean'],  
         ];
     }
 }

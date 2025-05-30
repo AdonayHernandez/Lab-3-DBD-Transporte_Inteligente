@@ -16,12 +16,17 @@ class VehicleResource extends JsonResource
     {
         return [
             'id' => (string) $this->_id,
+            'plate_number' => $this->plate_number,
             'capacity_max' => $this->capacity_max,
             'fuel_type' => $this->fuel_type,
             'manufacture_year' => $this->manufacture_year,
-            'driver_id' => (string) $this->driver_id,
-            'special_equipment' => $this->special_equipment, // array
+            'driver_id' => new DriverResource($this->driver),
+            'vehicle_type' => new TypeOfVehicleResource(
+                \App\Models\TypeOfVehicle::find($this->type_of_vehicle_id)
+            ),
+            'special_equipment' => $this->special_equipment,
             'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

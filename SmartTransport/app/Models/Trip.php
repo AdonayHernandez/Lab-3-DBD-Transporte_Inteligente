@@ -13,13 +13,13 @@ class Trip extends Model
         'route_id',
     ];
 
-    // Relación con el usuario
+    
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relación con la ruta
+   
     public function route()
     {
         return $this->belongsTo(Route::class);

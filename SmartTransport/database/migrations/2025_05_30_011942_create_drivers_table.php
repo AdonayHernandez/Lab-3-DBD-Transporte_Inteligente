@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
             $table->json('schedules');
-            $table->json('assigned_routes');
+            $table->json('route_id');
             $table->text('evaluation_details');
             $table->text('incident_details');
             $table->timestamps();

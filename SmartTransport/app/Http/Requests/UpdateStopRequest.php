@@ -22,12 +22,10 @@ class UpdateStopRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string|max:255',
-            'address' => 'sometimes|string',
-            'latitude' => 'sometimes|numeric',
-            'longitude' => 'sometimes|numeric',
-            'description' => 'sometimes|string|nullable',
-            'status' => 'sometimes|in:active,inactive,maintenance',
+            'location' => 'required|string|max:255',
+            'services' => 'required|array',
+            'connections' => 'required|array',
+            'infrastructure_details' => 'required|array',
         ];
     }
 }

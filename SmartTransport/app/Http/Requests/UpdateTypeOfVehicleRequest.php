@@ -22,10 +22,7 @@ class UpdateTypeOfVehicleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string|max:255',
-            'description' => 'sometimes|string|nullable',
-            'max_capacity' => 'sometimes|integer|min:1',
-            'features' => 'sometimes|array',
+            'name'=> 'required|string|max:255',
         ];
     }
 }

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMaintenanceRequest;
+use App\Http\Requests\UpdateMaintenanceRequest;
 use App\Http\Resources\MaintenanceResource;
 use App\Models\Maintenance;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Dedoc\Scramble\Attributes\ExcludeRouteFromDocs;
+use Dedoc\Scramble\Attributes\Group;
 
 class MaintenanceController extends Controller
 {
@@ -15,7 +18,9 @@ class MaintenanceController extends Controller
      */
     public function index()
     {
-        $maintenances = MaintenanceResource::collection(Maintenance::all());
+        $maintenances = MaintenanceResource::collection(
+            Maintenance::with(['vehicle.vehicleType'])->paginate(4)
+        );
 
         return response()->json([
             'maintenances' => $maintenances
@@ -39,18 +44,22 @@ class MaintenanceController extends Controller
      */
     public function show(string $id)
     {
-       //
+        $maintenance = Maintenance::with(['vehicle.vehicleType'])->findOrFail($id);
+
+        return response()->json([
+            'maintenance' => new MaintenanceResource($maintenance)
+        ], Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateMaintenanceRequest $request, Maintenance $maintenance)
     {
-        $maintenance = Maintenance::findOrFail($id);
-        $maintenance->update($request->all());
-        
-        return new MaintenanceResource($maintenance);
+
+        $maintenance->update($request->validated());
+
+        return (new MaintenanceResource($maintenance))->response()->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -60,7 +69,7 @@ class MaintenanceController extends Controller
     {
         $maintenance = Maintenance::findOrFail($id);
         $maintenance->delete();
-        
+
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

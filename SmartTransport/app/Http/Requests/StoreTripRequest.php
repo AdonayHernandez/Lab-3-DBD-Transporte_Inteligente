@@ -22,8 +22,8 @@ class StoreTripRequest extends FormRequest
     public function rules(): array
     {
          return [
-            'user_id' => 'required|string', // o exists:users,_id
-            'route_id' => 'required|string', // o exists:routes,_id
+            'user_id' => 'required|string', 
+            'route_id' => 'required|string', 
         ];
     }
 }

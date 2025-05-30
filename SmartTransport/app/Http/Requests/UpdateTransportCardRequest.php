@@ -22,11 +22,9 @@ class UpdateTransportCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'card_code' => 'sometimes|string|unique:transport_cards,card_code,' . $this->route('id'),
-            'balance' => 'sometimes|numeric|min:0',
-            'user_id' => 'sometimes|exists:users,_id',
-            'status' => 'sometimes|in:active,inactive,suspended',
-            'last_use' => 'sometimes|date',
+            'user_id' => 'required|string', 
+            'card_code' => 'required|string',
+            'balance' => 'required|numeric|min:0',
         ];
     }
 }

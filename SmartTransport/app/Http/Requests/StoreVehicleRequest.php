@@ -22,10 +22,12 @@ class StoreVehicleRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'plate_number' => 'required|string|',
             'capacity_max' => 'required|integer|min:1',
             'fuel_type' => 'required|string|max:50',
-            'manufacture_year' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
-            'driver_id' => 'required|string', // o exists:drivers,_id
+            'manufacture_year' => 'required|digits:4|integer|min:1900',
+            'driver_id' => 'required|string|',
+            'type_of_vehicle_id' => 'required|string',
             'special_equipment' => 'required|array',
         ];
     }

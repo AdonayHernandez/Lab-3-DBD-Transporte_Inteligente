@@ -22,14 +22,8 @@ class UpdateTripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'route_id' => 'sometimes|exists:routes,_id',
-            'driver_id' => 'sometimes|exists:drivers,_id',
-            'vehicle_id' => 'sometimes|exists:vehicles,_id',
-            'start_time' => 'sometimes|date',
-            'end_time' => 'sometimes|date|nullable|after_or_equal:start_time',
-            'status' => 'sometimes|in:scheduled,in_progress,completed,cancelled',
-            'passenger_count' => 'sometimes|integer|min:0',
-            'notes' => 'sometimes|string|nullable',
+            'user_id' => 'required|string', 
+            'route_id' => 'required|string', 
         ];
     }
 }

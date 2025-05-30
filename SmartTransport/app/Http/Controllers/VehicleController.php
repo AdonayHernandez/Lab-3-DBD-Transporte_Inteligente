@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVehicleRequest;
+use App\Http\Requests\UpdateVehicleRequest;
 use App\Http\Resources\VehicleResource;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Dedoc\Scramble\Attributes\ExcludeRouteFromDocs;
+use Dedoc\Scramble\Attributes\Group;
+
+
 
 class VehicleController extends Controller
 {
@@ -15,10 +20,12 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        $vehicles = VehicleResource::collection(Vehicle::all());
+
+        $vehicles = Vehicle::with(['driver', 'vehicleType'])->paginate(4);
+
 
         return response()->json([
-            'vehicles' => $vehicles
+            'vehicles' => VehicleResource::collection($vehicles),
         ], Response::HTTP_OK);
     }
 
@@ -39,17 +46,31 @@ class VehicleController extends Controller
      */
     public function show(Vehicle $vehicle)
     {
-        //
+        $vehicle->load(['driver', 'vehicleType']);
+
+        return response()->json([
+            'vehicle' => new VehicleResource($vehicle)
+        ], Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Vehicle $vehicle)
+    public function update(UpdateVehicleRequest $request, $id)
     {
-        $vehicle->update($request->all());
-        
-        return new VehicleResource($vehicle);
+        $vehicle = Vehicle::find($id);
+
+        if (!$vehicle) {
+            return response()->json([
+                'message' => 'Vehículo no encontrado.'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $vehicle->update($request->validated());
+
+        return (new VehicleResource($vehicle))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -58,7 +79,7 @@ class VehicleController extends Controller
     public function destroy(Vehicle $vehicle)
     {
         $vehicle->delete();
-        
+
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -21,13 +21,12 @@ class UpdateDriverRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|unique:drivers,email,' . $this->driver,
-            'phone' => 'sometimes|string',
-            'license_number' => 'sometimes|string|unique:drivers,license_number,' . $this->driver,
-            'status' => 'sometimes|in:active,inactive,suspended',
-            'user_id' => 'sometimes|exists:users,_id',
+         return [
+            'name'=>'required|string',
+            'schedules' => 'required|array',
+            'route_id' => 'required|string',
+            'evaluation_details' => 'nullable|string',
+            'incident_details' => 'nullable|string',
         ];
     }
 }

@@ -8,6 +8,8 @@ use App\Http\Resources\TransportCardResource;
 use App\Models\TransportCard;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Dedoc\Scramble\Attributes\ExcludeRouteFromDocs;
+use Dedoc\Scramble\Attributes\Group;
 
 class TransportCardController extends Controller
 {
@@ -16,7 +18,7 @@ class TransportCardController extends Controller
      */
     public function index()
     {
-        $cards = TransportCardResource::collection(TransportCard::all());
+        $cards = TransportCardResource::collection(TransportCard::with('user')->paginate(4));
 
         return response()->json([
             'transport_cards' => $cards
@@ -30,7 +32,7 @@ class TransportCardController extends Controller
     {
         $data = $request->validated();
 
-        // Validar unicidad manualmente con MongoDB
+
         if (TransportCard::where('card_code', $data['card_code'])->exists()) {
             return response()->json([
                 'message' => 'el numero de tarjeta ya existe'
@@ -49,28 +51,28 @@ class TransportCardController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $card = TransportCard::with('user')->findOrFail($id);
+
+        return response()->json([
+            'transport_card' => new TransportCardResource($card)
+        ], Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTransportCardRequest $request, string $id)
+    public function update(Request $request, $id)
     {
-        $data = $request->validated();
-        $card = TransportCard::findOrFail($id);
-        
-        // Validar unicidad del código de tarjeta manualmente si se está actualizando
-        if (isset($data['card_code']) && $data['card_code'] !== $card->card_code) {
-            if (TransportCard::where('card_code', $data['card_code'])->exists()) {
-                return response()->json([
-                    'message' => 'el numero de tarjeta ya existe'
-                ], 422);
-            }
+        $card = TransportCard::find($id);
+
+        if (!$card) {
+            return response()->json([
+                'message' => 'Tarjeta no encontrada'
+            ], 404);
         }
-        
-        $card->update($data);
-        
+
+        $card->update($request->all());
+
         return new TransportCardResource($card);
     }
 
@@ -81,7 +83,7 @@ class TransportCardController extends Controller
     {
         $card = TransportCard::findOrFail($id);
         $card->delete();
-        
+
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

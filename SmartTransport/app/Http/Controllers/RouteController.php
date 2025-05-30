@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRouteRequest;
+use App\Http\Requests\UpdateRouteRequest;
 use App\Http\Resources\RouteResource;
 use App\Models\Route;
 use App\Models\Stop;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Dedoc\Scramble\Attributes\ExcludeRouteFromDocs;
+use Dedoc\Scramble\Attributes\Group;
 
 class RouteController extends Controller
 {
@@ -51,18 +54,24 @@ class RouteController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $route = Route::findOrFail($id);
+
+        return response()->json([
+            'route' => new RouteResource($route)
+        ], Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRouteRequest $request, Route $route)
     {
-        $route = Route::findOrFail($id);
-        $route->update($request->all());
-        
-        return new RouteResource($route);
+        $data = $request->validated();
+        $route->update($data);
+
+        return (new RouteResource($route))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -72,7 +81,7 @@ class RouteController extends Controller
     {
         $route = Route::findOrFail($id);
         $route->delete();
-        
+
         return response()->json(null, 204);
     }
 }

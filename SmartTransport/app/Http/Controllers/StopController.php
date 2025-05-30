@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStopRequest;
+use App\Http\Requests\UpdateStopRequest;
 use App\Http\Resources\StopResource;
 use App\Models\Stop;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Dedoc\Scramble\Attributes\ExcludeRouteFromDocs;
+use Dedoc\Scramble\Attributes\Group;
 
 class StopController extends Controller
 {
@@ -39,18 +42,24 @@ class StopController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $stop = Stop::findOrFail($id);
+
+        return response()->json([
+            'stop' => new StopResource($stop)
+        ], Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateStopRequest $request, Stop $stop)
     {
-        $stop = Stop::findOrFail($id);
-        $stop->update($request->all());
-        
-        return new StopResource($stop);
+        $data = $request->validated();
+        $stop->update($data);
+
+        return (new StopResource($stop))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -60,7 +69,7 @@ class StopController extends Controller
     {
         $stop = Stop::findOrFail($id);
         $stop->delete();
-        
+
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

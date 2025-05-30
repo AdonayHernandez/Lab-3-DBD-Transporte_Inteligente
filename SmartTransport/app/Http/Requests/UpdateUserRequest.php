@@ -22,12 +22,11 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|unique:users,email,' . $this->route('id'),
-            'password' => 'sometimes|string|min:8',
-            'role' => 'sometimes|in:admin,driver,user',
-            'status' => 'sometimes|in:active,inactive,suspended',
-            'profile_data' => 'sometimes|array',
+            'name'        => 'required|string|max:255',
+            'lastName'    => 'required|string|max:255',
+            'email'       => 'required|email|max:255|unique:users,email,',
+            'phoneNumber' => 'required|string|max:20',
+            'password'    =>  'required|string|min:8',
         ];
     }
 }

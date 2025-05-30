@@ -8,6 +8,9 @@ use App\Http\Resources\DriverResource;
 use App\Models\Driver;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Dedoc\Scramble\Attributes\ExcludeRouteFromDocs;
+use Dedoc\Scramble\Attributes\Group;
+
 
 class DriverController extends Controller
 {
@@ -16,11 +19,14 @@ class DriverController extends Controller
      */
     public function index()
     {
-        $drivers = Driver::all();
+
+        $drivers = DriverResource::collection(
+            Driver::all()
+        );
 
         return response()->json([
-            'drivers' => DriverResource::collection($drivers)
-        ]);
+            'drivers' => $drivers
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -42,7 +48,9 @@ class DriverController extends Controller
      */
     public function show(Driver $driver)
     {
-        //
+        return response()->json([
+            'driver' => new DriverResource($driver)
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -52,7 +60,7 @@ class DriverController extends Controller
     {
         $data = $request->validated();
         $driver->update($data);
-        
+
         return new DriverResource($driver);
     }
 
@@ -62,7 +70,7 @@ class DriverController extends Controller
     public function destroy(Driver $driver)
     {
         $driver->delete();
-        
+
         return response()->json(null, 204);
     }
 }

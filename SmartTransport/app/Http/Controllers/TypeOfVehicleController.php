@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTypeOfVehicleRequest;
+use App\Http\Requests\UpdateTypeOfVehicleRequest;
 use App\Http\Resources\TypeOfVehicleResource;
 use App\Models\TypeOfVehicle;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Dedoc\Scramble\Attributes\ExcludeRouteFromDocs;
+use Dedoc\Scramble\Attributes\Group;
 
 class TypeOfVehicleController extends Controller
 {
@@ -15,10 +18,10 @@ class TypeOfVehicleController extends Controller
      */
     public function index()
     {
-        $typeOfVehicle=TypeOfVehicleResource::collection(TypeOfVehicle::all());
+        $typeOfVehicle = TypeOfVehicleResource::collection(TypeOfVehicle::all());
 
         return response()->json([
-            'typeOfVehicle'=>$typeOfVehicle
+            'typeOfVehicle' => $typeOfVehicle
         ]);
     }
 
@@ -27,7 +30,7 @@ class TypeOfVehicleController extends Controller
      */
     public function store(StoreTypeOfVehicleRequest $request)
     {
-        $typeOfVehicle=TypeOfVehicle::query()->create($request->validated());
+        $typeOfVehicle = TypeOfVehicle::query()->create($request->validated());
 
         return (new TypeOfVehicleResource($typeOfVehicle))->response()->setStatusCode(Response::HTTP_CREATED);
     }
@@ -37,17 +40,30 @@ class TypeOfVehicleController extends Controller
      */
     public function show(TypeOfVehicle $typeOfVehicle)
     {
-        //
+        return response()->json([
+            'typeOfVehicle' => new TypeOfVehicleResource($typeOfVehicle)
+        ], Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TypeOfVehicle $typeOfVehicle)
+    public function update(UpdateTypeOfVehicleRequest $request, $id)
     {
-        $typeOfVehicle->update($request->all());
-        
-        return new TypeOfVehicleResource($typeOfVehicle);
+        $typeOfVehicle = TypeOfVehicle::find($id);
+
+        if (!$typeOfVehicle) {
+            return response()->json([
+                'message' => 'Tipo de vehículo no encontrado'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $data = $request->validated();
+        $typeOfVehicle->update($data);
+
+        return (new TypeOfVehicleResource($typeOfVehicle))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -56,7 +72,7 @@ class TypeOfVehicleController extends Controller
     public function destroy(TypeOfVehicle $typeOfVehicle)
     {
         $typeOfVehicle->delete();
-        
+
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

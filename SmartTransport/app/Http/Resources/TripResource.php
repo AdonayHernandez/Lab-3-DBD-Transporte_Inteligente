@@ -16,9 +16,15 @@ class TripResource extends JsonResource
     {
         return [
             'id' => (string) $this->_id,
-            'user_id' => (string) $this->user_id,
-            'route_id' => (string) $this->route_id,
+            'user' => new UserResource($this->whenLoaded('user')),
+            'route' => $this->when($this->route, function () {
+                return [
+                    'id' => (string) $this->route->_id,
+                    'route_name' => $this->route->route_name,
+                    ];null;
+            }),
             'created_at' => $this->created_at,
+           
         ];
     }
 }

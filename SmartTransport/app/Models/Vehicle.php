@@ -9,11 +9,13 @@ class Vehicle extends Model
    protected $connection = 'mongodb';
 
    protected $fillable = [
+      'plate_number',
       'capacity_max',
       'fuel_type',
       'vehicle_type',
       'manufacture_year',
       'driver_id',
+      'type_of_vehicle_id',
       'special_equipment'
    ];
 
@@ -27,6 +29,6 @@ class Vehicle extends Model
    }
 
    public function vehicleType(){
-      return $this->belongsTo(TypeOfVehicle::class);
+      return $this->belongsTo(TypeOfVehicle::class, 'type_of_vehicle_id');
    }
 }

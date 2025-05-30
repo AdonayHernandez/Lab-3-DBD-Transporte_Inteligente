@@ -9,16 +9,16 @@ class Driver extends Model
    protected $connection = 'mongodb';
 
    protected $fillable = [
+      'name',
       'schedules',
-      'assigned_routes',
+      'route_id',
       'evaluation_details',
       'incident_details'
    ];
 
    protected $casts = [
       'schedules' => 'array',
-      'assigned_routes' => 'array',
    ];
 
-   
+ 
 }

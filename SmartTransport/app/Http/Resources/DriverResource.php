@@ -14,12 +14,13 @@ class DriverResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-         return [
+        return [
             'id' => (string) $this->_id,
-            'schedules' => $this->schedules,                     
-            'assigned_routes' => $this->assigned_routes,         
-            'evaluation_details' => $this->evaluation_details,   
-            'incident_details' => $this->incident_details,       
+            'name' => $this->name,
+            'schedules' => $this->schedules,
+            'route' => $this->route_id,
+            'evaluation_details' => $this->evaluation_details,
+            'incident_details' => $this->incident_details,
             'created_at' => $this->created_at,
         ];
     }
